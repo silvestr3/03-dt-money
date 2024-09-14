@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext } from "react";
 import { Header } from "../../components/Header";
 import { Summary } from "../../components/Summary";
 import { SearchForm } from "./components/SearchForm";
@@ -7,29 +7,10 @@ import {
   TransactionsContainer,
   TransactionsTable,
 } from "./styles";
-import { Env } from "../../env";
-
-interface TransactionType {
-  id: number;
-  description: string;
-  type: "income" | "outcome";
-  category: string;
-  price: number;
-  createdAt: string;
-}
+import { TransactionsContext } from "../../contexts/TransactionsContext";
 
 export const Transactions = () => {
-  const [transactions, setTransactions] = useState<TransactionType[]>([]);
-
-  async function loadTransactionsList() {
-    fetch(`${Env.API_URL}/transactions`)
-      .then((response) => response.json())
-      .then((data) => setTransactions(data));
-  }
-
-  useEffect(() => {
-    loadTransactionsList();
-  }, []);
+  const { transactions } = useContext(TransactionsContext);
 
   return (
     <div>
